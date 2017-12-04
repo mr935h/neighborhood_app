@@ -8,12 +8,17 @@
   <meta name"viewport" content="width=device-width, initial-scale=1">
 </head>
 <nav>
-  <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
 </nav>
 <body>
   <div class="container">
-    <div id="markers"></div>
+    <div id="markers">
+      <form>
+        <input type="text" name="filter_makers">
+        <input type="submit" value="Filter">
+      </form>
+    </div>
     <div id="map"></div>
   </div>
 <script type="text/javascript" src="bower_components/knockout/dist/knockout.js"></script>

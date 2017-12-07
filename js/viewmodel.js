@@ -1,8 +1,7 @@
 var map;
 
-
-
 function initMap() {
+    var self = this;
     var map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 32.9413599, lng: -96.6304932},
       zoom: 12
@@ -23,6 +22,8 @@ function initMap() {
         id: 2}
     ];
 
+    self.visibleMarkers = ko.observableArray();
+
     for (i=0; i<=markers.length; i++){
         //closure to add marker and infowindow for each location
         var markerInfo = (function(cMarkers){
@@ -40,6 +41,9 @@ function initMap() {
                 marker.addListener('click', function() {
                     infowindow.open(map, marker);
         });})(markers);
+        visibleMarkers.push(markers[i].title);
     };
+
+
 };
 

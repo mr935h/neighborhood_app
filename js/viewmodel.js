@@ -45,7 +45,7 @@ function initMap() {
       zoom: 12
     });
 
-    for (i=0; i<=markers.length; i++){
+    for (i=0; i<markers.length; i++){
         //closure to add marker and infowindow for each location
         var markerInfo = (function(cMarkers){
             var content = cMarkers.title;

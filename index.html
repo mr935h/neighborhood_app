@@ -15,7 +15,7 @@
   <div class="container">
     <div id="markers">
       <form>
-        <input type="text" name="filter_makers">
+        <input type="text" name="filter_makers" data-bind="value: filterValue">
         <input type="submit" value="Filter">
       </form>
       <ul id="locations" data-bind="foreach: visibleMarkers">

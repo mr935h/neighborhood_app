@@ -30,11 +30,29 @@ var AppViewModel = function(){
     this.visibleMarkers = ko.observableArray([]);
 
     markers.forEach(function(location){
-        self.visibleMarkers.push(location.title);
+        self.visibleMarkers.push({title: location.title, position: location.position});
     });
 
     this.filterValue = ko.observable();
+    this.filterArray = function() {
+        // if(self.filterValue().length<1) {
+        //     self.visibleMarkers(self.markers());
+        // }
+        // self.visibleMarkers.remove(function(item){return item!=self.filterValue();})
+        self.visibleMarkers(markers.filter(checkFilter));
+        self.filterValue('');
+        // for (i=0;i<self.visibleMarkers().length;i++){
+        //     alert(self.visibleMarkers()[i].title);
+        // }
 
+    }
+
+    function checkFilter(item){
+        if (!self.filterValue()) {
+            return item.title != self.filterValue();
+        }
+        return item.title == self.filterValue();
+    }
 }
 
 

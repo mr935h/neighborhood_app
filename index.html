@@ -16,10 +16,10 @@
     <div id="markers">
       <form>
         <input type="text" name="filter_makers" data-bind="value: filterValue">
-        <input type="submit" value="Filter">
+        <input type="submit" value="Filter" data-bind="click: filterArray">
       </form>
       <ul id="locations" data-bind="foreach: visibleMarkers">
-          <li data-bind="text: $data"></li>
+          <li data-bind="text: title"></li>
       </ul>
     </div>
     <div id="map"></div>

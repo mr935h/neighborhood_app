@@ -1,4 +1,5 @@
 var map;
+var allMarkers = [];
 var markers = [
     {
         title: 'breckinridge park',
@@ -35,53 +36,54 @@ var AppViewModel = function(){
 
     this.filterValue = ko.observable();
     this.filterArray = function() {
-        // if(self.filterValue().length<1) {
-        //     self.visibleMarkers(self.markers());
-        // }
-        // self.visibleMarkers.remove(function(item){return item!=self.filterValue();})
-        self.visibleMarkers(markers.filter(checkFilter));
-        self.filterValue('');
-        // for (i=0;i<self.visibleMarkers().length;i++){
-        //     alert(self.visibleMarkers()[i].title);
-        // }
-
-    }
-
-    function checkFilter(item){
-        if (!self.filterValue()) {
-            return item.title != self.filterValue();
-        }
-        return item.title == self.filterValue();
+        self.visibleMarkers(markers.filter(function (s){
+            return (s.title === self.filterValue());
+        }));
+        for (i=0; i<allMarkers.length; i++) {
+            if (allMarkers[i].title === self.filterValue()){
+                allMarkers[i].setMap(map);
+            } else {
+                allMarkers[i].setMap(null);
+            };
+        };
     }
 }
 
 
 function initMap() {
     var self = this;
-    var map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 32.9413599, lng: -96.6304932},
       zoom: 12
     });
 
     for (i=0; i<markers.length; i++){
-        //closure to add marker and infowindow for each location
-        var markerInfo = (function(cMarkers){
-            var content = cMarkers.title;
-            var infowindow = new google.maps.InfoWindow({
-                content: content
-            });
-            var marker = new google.maps.Marker({
-                position: cMarkers.position,
-                map: map,
-            });
-
-            // closures
-                marker.addListener('click', function() {
-                    infowindow.open(map, marker);
-        });})(markers[i]);
+        createMarkers(markers[i], map);
     };
-
 };
+
+
+function createMarkers(item, itemMap){
+    //closure to add marker and infowindow for each location
+    var markerInfo = (function(cMarkers){
+        var content = cMarkers.title;
+        var infowindow = new google.maps.InfoWindow({
+            content: content
+        });
+        var marker = new google.maps.Marker({
+            title: cMarkers.title,
+            position: cMarkers.position,
+            map: itemMap
+        });
+        allMarkers.push(marker);
+        // closures
+            marker.addListener('click', function() {
+                infowindow.open(map, marker);
+            });
+    })(item);
+};
+
+
 
 ko.applyBindings(new AppViewModel());
 

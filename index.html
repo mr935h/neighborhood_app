@@ -17,6 +17,7 @@
       <form>
         <input type="text" name="filter_makers" data-bind="value: filterValue">
         <input type="submit" value="Filter" data-bind="click: filterArray">
+        <input type="submit" value="Clear" data-bind="click: clearFilter">
       </form>
       <ul id="locations" data-bind="foreach: visibleMarkers">
           <li data-bind="text: title"></li>

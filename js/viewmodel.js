@@ -47,6 +47,13 @@ var AppViewModel = function(){
             };
         };
     }
+    this.clearFilter = function() {
+        self.visibleMarkers(markers);
+        self.filterValue('');
+        for (i=0; i<allMarkers.length; i++) {
+            allMarkers[i].setMap(map);
+        };
+    };
 }
 
 
@@ -76,10 +83,9 @@ function createMarkers(item, itemMap){
             map: itemMap
         });
         allMarkers.push(marker);
-        // closures
-            marker.addListener('click', function() {
-                infowindow.open(map, marker);
-            });
+        marker.addListener('click', function() {
+            infowindow.open(map, marker);
+        });
     })(item);
 };
 

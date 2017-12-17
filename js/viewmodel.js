@@ -4,20 +4,32 @@ var markers = [
     {
         title: 'breckinridge park',
         position: {lat: 32.9968091, lng: -96.6281827},
-        map: map,
         id: 0
     },
     {
         title: 'home',
         position: {lat: 32.9413599, lng: -96.6304932},
-        map: map,
         id: 1
     },
     {
         title: 'firewheel shopping center',
         position: {lat: 32.9527034, lng: -96.6145097},
-        map: map,
         id: 2
+    },
+    {
+        title: 'firewheel golf park',
+        position: {lat: 32.9768831, lng: -96.6348},
+        id: 3
+    },
+    {
+        title: 'downtown garland dart station',
+        position: {lat: 32.9163, lng: -96.6358},
+        id: 4
+    },
+    {
+        title: 'At&t One Bell',
+        position: {lat: 32.779705, lng: -96.799317},
+        id: 5
     }
 ]
 
@@ -36,11 +48,13 @@ var AppViewModel = function(){
 
     this.filterValue = ko.observable();
     this.filterArray = function() {
+        var str = self.filterValue().toLowerCase();
+        alert(str);
         self.visibleMarkers(markers.filter(function (s){
-            return (s.title === self.filterValue());
+            return (s.title === str);
         }));
         for (i=0; i<allMarkers.length; i++) {
-            if (allMarkers[i].title === self.filterValue()){
+            if (allMarkers[i].title === str){
                 allMarkers[i].setMap(map);
             } else {
                 allMarkers[i].setMap(null);
@@ -61,7 +75,7 @@ function initMap() {
     var self = this;
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 32.9413599, lng: -96.6304932},
-      zoom: 12
+      zoom: 11
     });
 
     for (i=0; i<markers.length; i++){

@@ -27,7 +27,7 @@ var markers = [
         id: 4
     },
     {
-        title: 'At&t One Bell',
+        title: 'at&t one bell',
         position: {lat: 32.779705, lng: -96.799317},
         id: 5
     }

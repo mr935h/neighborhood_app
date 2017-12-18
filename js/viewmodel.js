@@ -106,6 +106,7 @@ function createMarkers(item, itemMap){
             position: cMarkers.position,
             map: itemMap
         });
+        marker.setAnimation(null);
         allMarkers.push(marker);
         marker.addListener('click', function() {
             infowindow.open(map, marker);

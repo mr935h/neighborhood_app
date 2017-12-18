@@ -68,7 +68,7 @@ var AppViewModel = function(){
         };
     };
 
-    this.toggleBounce = function(s) {
+    this.toggleListBounce = function(s) {
         for (i=0; i<allMarkers.length; i++) {
             if (allMarkers[i].title === s.title) {
                 if (allMarkers[i].getAnimation() !== null) {
@@ -78,7 +78,6 @@ var AppViewModel = function(){
                 }
             }
         }
-
     }
 }
 
@@ -110,8 +109,8 @@ function createMarkers(item, itemMap){
         allMarkers.push(marker);
         marker.addListener('click', function() {
             infowindow.open(map, marker);
+            toggleBounce();
         });
-        marker.addListener('click', toggleBounce)
     function toggleBounce() {
         if (marker.getAnimation() !== null) {
           marker.setAnimation(null);
@@ -122,6 +121,8 @@ function createMarkers(item, itemMap){
     })(item);
 };
 
+
+function gm_authFailure() {alert('An error occured! The map cannot be loaded.');};
 
 
 ko.applyBindings(new AppViewModel());

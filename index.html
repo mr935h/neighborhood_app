@@ -20,7 +20,7 @@
         <input type="submit" value="Clear" data-bind="click: clearFilter">
       </form>
       <ul id="locations" data-bind="foreach: visibleMarkers">
-          <li data-bind="text: title"></li>
+          <li data-bind="text: title, click: $parent.toggleBounce"></li>
       </ul>
     </div>
     <div id="map"></div>

@@ -7,8 +7,8 @@ var markers = [
         id: 0
     },
     {
-        title: 'home',
-        position: {lat: 32.9413599, lng: -96.6304932},
+        title: 'spring creek forest preserve',
+        position: {lat: 32.9643, lng: -96.6570},
         id: 1
     },
     {
@@ -49,7 +49,6 @@ var AppViewModel = function(){
     this.filterValue = ko.observable();
     this.filterArray = function() {
         var str = self.filterValue().toLowerCase();
-        alert(str);
         self.visibleMarkers(markers.filter(function (s){
             return (s.title === str);
         }));
@@ -68,8 +67,20 @@ var AppViewModel = function(){
             allMarkers[i].setMap(map);
         };
     };
-}
 
+    this.toggleBounce = function(s) {
+        for (i=0; i<allMarkers.length; i++) {
+            if (allMarkers[i].title === s.title) {
+                if (allMarkers[i].getAnimation() !== null) {
+                  allMarkers[i].setAnimation(null);
+                } else {
+                  allMarkers[i].setAnimation(google.maps.Animation.BOUNCE);
+                }
+            }
+        }
+
+    }
+}
 
 function initMap() {
     var self = this;
@@ -100,6 +111,14 @@ function createMarkers(item, itemMap){
         marker.addListener('click', function() {
             infowindow.open(map, marker);
         });
+        marker.addListener('click', toggleBounce)
+    function toggleBounce() {
+        if (marker.getAnimation() !== null) {
+          marker.setAnimation(null);
+        } else {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+      }
     })(item);
 };
 

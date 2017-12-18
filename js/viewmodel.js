@@ -84,7 +84,7 @@ var AppViewModel = function(){
 function initMap() {
     var self = this;
     map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 32.9413599, lng: -96.6304932},
+      center: {lat: 32.9435, lng: -96.7401},
       zoom: 11
     });
 

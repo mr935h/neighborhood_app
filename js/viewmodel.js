@@ -59,6 +59,7 @@ var AppViewModel = function(){
                 allMarkers[i].setMap(null);
             };
         };
+        yelpAPI();
     }
     this.clearFilter = function() {
         self.visibleMarkers(markers);
@@ -98,6 +99,7 @@ function createMarkers(item, itemMap){
     //closure to add marker and infowindow for each location
     var markerInfo = (function(cMarkers){
         var content = cMarkers.title;
+        // var content = yelpAPI(cMarkers)
         var infowindow = new google.maps.InfoWindow({
             content: content
         });
@@ -124,6 +126,24 @@ function createMarkers(item, itemMap){
 
 
 function gm_authFailure() {alert('An error occured! The map cannot be loaded.');};
+
+var yelpAPI = function() {
+
+    var yURL = "https://api.yelp.com/v3/businesses/search?term=restaurant&latitude=40.82783908257346&longitude=-74.10162448883057";
+
+    var settings = {
+      async: true,
+      crossDomain: true,
+      method: "GET",
+      dataType: "jsonp",
+      headers: "Authorization: Bearer kqppUEC29vr27BQE5sP7LoaWVm_c_2i7PCU5wluqWUM9iBy7T7i2fR10rHJl3acukXrGNdvmJQprRKZmWw2iM7WyYk5THQNXHajXvkzHNDf74VTPDkeu9HdD2ns5WnYx"
+    }
+
+    $.ajax(yURL, settings).done(function (response) {
+      console.log(response);
+    });
+}
+
 
 
 ko.applyBindings(new AppViewModel());

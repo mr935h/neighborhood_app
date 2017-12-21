@@ -33,11 +33,7 @@ var markers = [
     }
 ]
 
-// // This is a simple *viewmodel* - JavaScript that defines the data and behavior of your UI
-// function AppViewModel() {
-//     this.visibleMarkers = ko.observableArray();
-
-// }
+//apply ko bindings for UI
 var AppViewModel = function(){
     var self = this;
     this.visibleMarkers = ko.observableArray([]);
@@ -46,7 +42,10 @@ var AppViewModel = function(){
         self.visibleMarkers.push({title: location.title, position: location.position});
     });
 
+    //filterValue is the string to filter the visible markers with
     this.filterValue = ko.observable();
+
+    //updates the visible markers based on the filter
     this.filterArray = function() {
         var str = self.filterValue().toLowerCase();
         self.visibleMarkers(markers.filter(function (s){
@@ -60,6 +59,8 @@ var AppViewModel = function(){
             };
         };
     }
+
+    //clears filter to show all markers
     this.clearFilter = function() {
         self.visibleMarkers(markers);
         self.filterValue('');
@@ -68,6 +69,7 @@ var AppViewModel = function(){
         };
     };
 
+    //toggles the marker animation when the associated list item is clicked
     this.toggleListBounce = function(s) {
         for (i=0; i<allMarkers.length; i++) {
             if (allMarkers[i].title === s.title) {
@@ -81,6 +83,7 @@ var AppViewModel = function(){
     }
 }
 
+//create and display map and initial markers
 function initMap() {
     var self = this;
     map = new google.maps.Map(document.getElementById('map'), {
@@ -93,9 +96,8 @@ function initMap() {
     };
 };
 
-
+//create all markers and infowindows for markers
 function createMarkers(item, itemMap){
-    //closure to add marker and infowindow for each location
     var markerInfo = (function(cMarkers){
         var content = '<div id="infowindow' + cMarkers.id +
             '"><div id=title><b>' + cMarkers.title + '</b></div></div>';
@@ -124,9 +126,10 @@ function createMarkers(item, itemMap){
     })(item);
 };
 
-
+//catches and displays an error with google maps api
 function gm_authFailure() {alert('An error occured! The map cannot be loaded.');};
 
+//flickr api used to search marker titles and display first image found if any
 var flickrAPI = function(fItem, imageId) {
     var item = fItem.replaceAll(" ", "+");
     const key = '363098c9cd03fd9e21f9af2cae265d2a';
@@ -150,11 +153,12 @@ var flickrAPI = function(fItem, imageId) {
     });
 }
 
-
+//replace all function
 String.prototype.replaceAll = function(target, replacement) {
     return this.split(target).join(replacement);
 }
 
+//ko initiate function to apply ko bindings.
 ko.applyBindings(new AppViewModel());
 
 

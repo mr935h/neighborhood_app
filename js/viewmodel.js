@@ -97,8 +97,8 @@ function initMap() {
 function createMarkers(item, itemMap){
     //closure to add marker and infowindow for each location
     var markerInfo = (function(cMarkers){
-        var content = cMarkers.title;
-        // var content = yelpAPI(cMarkers)
+        var content = '<div id="infowindow' + cMarkers.id +
+            '"><div id=title><b>' + cMarkers.title + '</b></div></div>';
         var infowindow = new google.maps.InfoWindow({
             content: content
         });
@@ -110,9 +110,9 @@ function createMarkers(item, itemMap){
         marker.setAnimation(null);
         allMarkers.push(marker);
         marker.addListener('click', function() {
-            infowindow.open(map, marker);
             toggleBounce();
-            flickrAPI(marker.title);
+            flickrAPI(marker.title, cMarkers.id);
+            infowindow.open(map, marker);
         });
     function toggleBounce() {
         if (marker.getAnimation() !== null) {
@@ -127,15 +127,24 @@ function createMarkers(item, itemMap){
 
 function gm_authFailure() {alert('An error occured! The map cannot be loaded.');};
 
-var flickrAPI = function(fItem) {
+var flickrAPI = function(fItem, imageId) {
     var item = fItem.replaceAll(" ", "+");
     const key = '363098c9cd03fd9e21f9af2cae265d2a';
     var fUrl = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' +
         key + '&tags=' + item + '&safe_search=1&per_page=20&format=json&jsoncallback=?';
-
-
     $.getJSON(fUrl).done(function (response) {
-      alert(response.photos.photo[0].id);
+        if(response.photos.total>0) {
+            var photoUrl = 'http://farm' + response.photos.photo[0].farm +
+            '.static.flickr.com/' + response.photos.photo[0].server + '/' +
+            response.photos.photo[0].id + '_' + response.photos.photo[0].secret + '_m.jpg';
+            if (!$('#location-image' + imageId).length){
+                $('<img src="' + photoUrl + '" id="location-image' + imageId + '" height="42" width="42">').appendTo('#infowindow' + imageId);
+            }
+        }else {
+            if (!$('#location-image' + imageId).length){
+                $('<p id="location-image' + imageId + '">There were no images found for this location.</p>').appendTo('#infowindow' + imageId);
+            }
+        };
     }).fail(function(response){
         alert('action has failed');
     });

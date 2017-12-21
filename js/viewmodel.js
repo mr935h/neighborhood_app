@@ -59,7 +59,6 @@ var AppViewModel = function(){
                 allMarkers[i].setMap(null);
             };
         };
-        yelpAPI();
     }
     this.clearFilter = function() {
         self.visibleMarkers(markers);
@@ -113,6 +112,7 @@ function createMarkers(item, itemMap){
         marker.addListener('click', function() {
             infowindow.open(map, marker);
             toggleBounce();
+            flickrAPI(marker.title);
         });
     function toggleBounce() {
         if (marker.getAnimation() !== null) {
@@ -127,24 +127,24 @@ function createMarkers(item, itemMap){
 
 function gm_authFailure() {alert('An error occured! The map cannot be loaded.');};
 
-var yelpAPI = function() {
+var flickrAPI = function(fItem) {
+    var item = fItem.replaceAll(" ", "+");
+    const key = '363098c9cd03fd9e21f9af2cae265d2a';
+    var fUrl = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' +
+        key + '&tags=' + item + '&safe_search=1&per_page=20&format=json&jsoncallback=?';
 
-    var yURL = "https://api.yelp.com/v3/businesses/search?term=restaurant&latitude=40.82783908257346&longitude=-74.10162448883057";
 
-    var settings = {
-      async: true,
-      crossDomain: true,
-      method: "GET",
-      dataType: "jsonp",
-      headers: "Authorization: Bearer kqppUEC29vr27BQE5sP7LoaWVm_c_2i7PCU5wluqWUM9iBy7T7i2fR10rHJl3acukXrGNdvmJQprRKZmWw2iM7WyYk5THQNXHajXvkzHNDf74VTPDkeu9HdD2ns5WnYx"
-    }
-
-    $.ajax(yURL, settings).done(function (response) {
-      console.log(response);
+    $.getJSON(fUrl).done(function (response) {
+      alert(response.photos.photo[0].id);
+    }).fail(function(response){
+        alert('action has failed');
     });
 }
 
 
+String.prototype.replaceAll = function(target, replacement) {
+    return this.split(target).join(replacement);
+}
 
 ko.applyBindings(new AppViewModel());
 

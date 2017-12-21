@@ -99,7 +99,7 @@ function initMap() {
 //create all markers and infowindows for markers
 function createMarkers(item, itemMap){
     var markerInfo = (function(cMarkers){
-        var content = '<div id="infowindow' + cMarkers.id +
+        var content = '<div class=infowindow id="infowindow' + cMarkers.id +
             '"><div id=title><b>' + cMarkers.title + '</b></div></div>';
         var infowindow = new google.maps.InfoWindow({
             content: content
@@ -141,7 +141,7 @@ var flickrAPI = function(fItem, imageId) {
             '.static.flickr.com/' + response.photos.photo[0].server + '/' +
             response.photos.photo[0].id + '_' + response.photos.photo[0].secret + '_m.jpg';
             if (!$('#location-image' + imageId).length){
-                $('<img src="' + photoUrl + '" id="location-image' + imageId + '" height="42" width="42">').appendTo('#infowindow' + imageId);
+                $('<img src="' + photoUrl + '" class="info-image" id="location-image' + imageId + '" height="42" width="42">').appendTo('#infowindow' + imageId);
             }
         }else {
             if (!$('#location-image' + imageId).length){

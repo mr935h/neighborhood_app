@@ -1,11 +1,3 @@
-/* Always set the map height explicitly to define the size of the div
- * element that contains the map. */
-#map {
-  height: 100%;
-  width: 80%;
-  float: right;
-}
-/* Optional: Makes the sample page fill the window. */
 html, body {
   height: 100%;
   margin: 0;
@@ -13,13 +5,40 @@ html, body {
 }
 
 .container{
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
-.markers{
-    height: 100%;
-    width: 70%;
-    position: absolute;
-    float: left;
+.infowindow{
+  text-transform: capitalize;
+}
+
+.info-image{
+  display: block;
+  margin: 0 auto;
+}
+
+#map {
+  height: 100%;
+  width: 70%;
+  float: right;
+}
+
+#markers{
+  height: 100%;
+  width: 30%;
+  position: absolute;
+  float: left;
+  padding: 10px;
+  background-color: black;
+}
+
+#marker{
+  color: white;
+  font-size: 18px;
+  text-transform: capitalize;
+}
+
+#filter_form{
+  margin: 10px;
 }

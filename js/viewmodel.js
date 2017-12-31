@@ -73,11 +73,7 @@ var AppViewModel = function(){
     this.toggleListBounce = function(s) {
         for (i=0; i<allMarkers.length; i++) {
             if (allMarkers[i].title === s.title) {
-                if (allMarkers[i].getAnimation() !== null) {
-                  allMarkers[i].setAnimation(null);
-                } else {
-                  allMarkers[i].setAnimation(google.maps.Animation.BOUNCE);
-                }
+                toggleMarker(allMarkers[i], allMarkers[i].id, allMarkers[i].infowindow);
             }
         }
     }
@@ -107,24 +103,25 @@ function createMarkers(item, itemMap){
         var marker = new google.maps.Marker({
             title: cMarkers.title,
             position: cMarkers.position,
-            map: itemMap
+            id: cMarkers.id,
+            map: itemMap,
+            infowindow: infowindow
         });
         marker.setAnimation(null);
-        allMarkers.push(marker);
         marker.addListener('click', function() {
-            toggleBounce();
-            flickrAPI(marker.title, cMarkers.id);
-            infowindow.open(map, marker);
+            toggleMarker(marker);
         });
-    function toggleBounce() {
-        if (marker.getAnimation() !== null) {
-          marker.setAnimation(null);
-        } else {
-          marker.setAnimation(google.maps.Animation.BOUNCE);
-        }
-      }
+        allMarkers.push(marker);
     })(item);
 };
+
+
+function toggleMarker(marker){
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function(){ marker.setAnimation(null); }, 750);
+    marker.infowindow.open(map, marker);
+    flickrAPI(marker.title, marker.id);
+}
 
 //catches and displays an error with google maps api
 function gm_authFailure() {alert('An error occured! The map cannot be loaded.');};

@@ -60,6 +60,7 @@ var AppViewModel = function(){
         };
     }
 
+
     //clears filter to show all markers
     this.clearFilter = function() {
         self.visibleMarkers(markers);
@@ -86,35 +87,30 @@ function initMap() {
       center: {lat: 32.9435, lng: -96.7401},
       zoom: 11
     });
+    var infowindow = new google.maps.InfoWindow({});
 
     for (i=0; i<markers.length; i++){
-        createMarkers(markers[i], map);
+        var markerInfo = (function(cMarkers){
+            var content = '<div class=infowindow id="infowindow' + cMarkers.id +
+                '"><div id=title><b>' + cMarkers.title + '</b></div></div>';
+            var infowindow = new google.maps.InfoWindow({
+                content: content
+            });
+            var marker = new google.maps.Marker({
+                title: cMarkers.title,
+                position: cMarkers.position,
+                id: cMarkers.id,
+                map: map,
+                infowindow: infowindow
+            });
+            marker.setAnimation(null);
+            marker.addListener('click', function() {
+                toggleMarker(marker);
+            });
+            allMarkers.push(marker);
+        })(markers[i]);
     };
 };
-
-//create all markers and infowindows for markers
-function createMarkers(item, itemMap){
-    var markerInfo = (function(cMarkers){
-        var content = '<div class=infowindow id="infowindow' + cMarkers.id +
-            '"><div id=title><b>' + cMarkers.title + '</b></div></div>';
-        var infowindow = new google.maps.InfoWindow({
-            content: content
-        });
-        var marker = new google.maps.Marker({
-            title: cMarkers.title,
-            position: cMarkers.position,
-            id: cMarkers.id,
-            map: itemMap,
-            infowindow: infowindow
-        });
-        marker.setAnimation(null);
-        marker.addListener('click', function() {
-            toggleMarker(marker);
-        });
-        allMarkers.push(marker);
-    })(item);
-};
-
 
 function toggleMarker(marker){
     marker.setAnimation(google.maps.Animation.BOUNCE);

@@ -91,17 +91,16 @@ function initMap() {
 
     for (i=0; i<markers.length; i++){
         var markerInfo = (function(cMarkers){
-            var content = '<div class=infowindow id="infowindow' + cMarkers.id +
-                '"><div id=title><b>' + cMarkers.title + '</b></div></div>';
-            var infowindow = new google.maps.InfoWindow({
-                content: content
-            });
+            // var content = '<div class=infowindow id="infowindow' + cMarkers.id +
+            //     '"><div id=title><b>' + cMarkers.title + '</b></div></div>';
+            // var infowindow = new google.maps.InfoWindow({
+            //     content: content
+            // });
             var marker = new google.maps.Marker({
                 title: cMarkers.title,
                 position: cMarkers.position,
                 id: cMarkers.id,
-                map: map,
-                infowindow: infowindow
+                map: map
             });
             marker.setAnimation(null);
             marker.addListener('click', function() {
@@ -114,39 +113,38 @@ function initMap() {
     this.toggleMarker = function(pin) {
         pin.setAnimation(google.maps.Animation.BOUNCE);
         setTimeout(function(){ pin.setAnimation(null); }, 750);
-        pin.infowindow.open(map, pin);
-        flickrAPI(pin.title, pin.id);
+        flickrAPI(pin);
     };
-};
 
-// function toggleMarker(marker){
-//     marker.setAnimation(google.maps.Animation.BOUNCE);
-//     setTimeout(function(){ marker.setAnimation(null); }, 750);
-//     marker.infowindow.open(map, marker);
-//     flickrAPI(marker.title, marker.id);
-// }
+    this.infoContent = function(content, pin) {
+        var title = '<div class=infowindow id="infowindow"><div id=title><b>' + pin.title + '</b></div></div>';
+        infowindow.setContent(title + content);
+        infowindow.open(map, pin);
+    }
+};
 
 //catches and displays an error with google maps api
 function gm_authFailure() {alert('An error occured! The map cannot be loaded.');};
 
 //flickr api used to search marker titles and display first image found if any
-var flickrAPI = function(fItem, imageId) {
+var flickrAPI = function(pin) {
+    fItem = pin.title;
+    imageId = pin.id;
     var item = fItem.replaceAll(" ", "+");
     const key = '363098c9cd03fd9e21f9af2cae265d2a';
     var fUrl = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' +
         key + '&tags=' + item + '&safe_search=1&per_page=20&format=json&jsoncallback=?';
+    var content;
     $.getJSON(fUrl).done(function (response) {
         if(response.photos.total>0) {
             var photoUrl = 'http://farm' + response.photos.photo[0].farm +
             '.static.flickr.com/' + response.photos.photo[0].server + '/' +
             response.photos.photo[0].id + '_' + response.photos.photo[0].secret + '_m.jpg';
-            if (!$('#location-image' + imageId).length){
-                $('<img src="' + photoUrl + '" class="info-image" id="location-image' + imageId + '" height="42" width="42">').appendTo('#infowindow' + imageId);
-            }
+            content = '<img src="' + photoUrl + '" class="info-image" id="location-image" height="42" width="42">';
+            infoContent(content, pin);
         }else {
-            if (!$('#location-image' + imageId).length){
-                $('<p id="location-image' + imageId + '">There were no images found for this location.</p>').appendTo('#infowindow' + imageId);
-            }
+            content = '<p id="location-image">There were no images found for this location.</p>';
+            infoContent(content, pin);
         };
     }).fail(function(response){
         alert('action has failed');

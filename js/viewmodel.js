@@ -91,11 +91,6 @@ function initMap() {
 
     for (i=0; i<markers.length; i++){
         var markerInfo = (function(cMarkers){
-            // var content = '<div class=infowindow id="infowindow' + cMarkers.id +
-            //     '"><div id=title><b>' + cMarkers.title + '</b></div></div>';
-            // var infowindow = new google.maps.InfoWindow({
-            //     content: content
-            // });
             var marker = new google.maps.Marker({
                 title: cMarkers.title,
                 position: cMarkers.position,

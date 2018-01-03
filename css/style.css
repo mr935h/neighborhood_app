@@ -31,6 +31,7 @@ html, body {
   float: left;
   padding: 10px;
   background-color: black;
+  overflow: scroll;
 }
 
 #marker{

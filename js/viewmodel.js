@@ -107,7 +107,7 @@ function initMap() {
 
     this.toggleMarker = function(pin) {
         pin.setAnimation(google.maps.Animation.BOUNCE);
-        setTimeout(function(){ pin.setAnimation(null); }, 750);
+        setTimeout(function(){ pin.setAnimation(null); }, 1400);
         flickrAPI(pin);
     };
 

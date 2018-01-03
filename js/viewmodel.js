@@ -12,24 +12,24 @@ var markers = [
         id: 1
     },
     {
-        title: 'firewheel shopping center',
-        position: {lat: 32.9527034, lng: -96.6145097},
-        id: 2
-    },
-    {
-        title: 'firewheel golf park',
-        position: {lat: 32.9768831, lng: -96.6348},
+        title: 'at&t one bell',
+        position: {lat: 32.779705, lng: -96.799317},
         id: 3
     },
     {
-        title: 'downtown garland dart station',
-        position: {lat: 32.9163, lng: -96.6358},
+        title: 'rowlett creek preserve',
+        position: {lat: 32.9089, lng: -96.5936},
         id: 4
     },
     {
-        title: 'at&t one bell',
-        position: {lat: 32.779705, lng: -96.799317},
+        title: 'klyde warren park',
+        position: {lat: 32.7894, lng: -96.8018},
         id: 5
+    },
+    {
+        title: 'white rock lake',
+        position: {lat: 32.8281, lng: -96.7253},
+        id: 6
     }
 ]
 

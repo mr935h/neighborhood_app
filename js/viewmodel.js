@@ -48,22 +48,28 @@ var AppViewModel = function(){
     //updates the visible markers based on the filter
     this.filterArray = function() {
         var str = self.filterValue().toLowerCase();
-        self.visibleMarkers(markers.filter(function (s){
-            return (s.title === str);
-        }));
+        this.visibleMarkers.removeAll();
         for (i=0; i<allMarkers.length; i++) {
-            if (allMarkers[i].title === str){
+            if (allMarkers[i].title.indexOf(str) != '-1'){
+                self.visibleMarkers.push(
+                    {
+                    title: allMarkers[i].title,
+                    position: allMarkers[i].position
+                    });
                 allMarkers[i].setMap(map);
             } else {
                 allMarkers[i].setMap(null);
-            };
+            }
         };
     }
 
 
     //clears filter to show all markers
     this.clearFilter = function() {
-        self.visibleMarkers(markers);
+        this.visibleMarkers.removeAll();
+        markers.forEach(function(location){
+            self.visibleMarkers.push({title: location.title, position: location.position});
+        });
         self.filterValue('');
         for (i=0; i<allMarkers.length; i++) {
             allMarkers[i].setMap(map);
